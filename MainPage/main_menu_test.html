@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang = "en" id = "html">
+<head>
+
+    <title>Letter Soup</title>
+    <meta charset = "utf-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1">
+
+    <!-- Import some needed libraries for bootstrap -->
+    <link rel = "stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src = "https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+    <script>
+        // When resizing the page, maintain the currrent position (i.e. do not scroll randomly)
+        var term = "main";
+        parseLink = window.location.href.split("#");
+        parseLink = parseLink[parseLink.length-1].split("-")[0];
+
+        if (parseLink == "first") {
+          term = "profile";
+        } else if (parseLink == "second") {
+          term = "main";
+        } else if (parseLink == "last") {
+          term = "leaderboard";
+        }
+
+        reScroll = function(){
+          document.getElementById("html").style["scroll-behavior"]="auto";
+            if (term == "profile") {
+              // window.location.href = "#first";
+              window.scroll(0, 0);
+            } else if ( term == "leaderboard") {
+              // window.location.href = "#second-from-first";
+              window.scroll(document.getElementById("body").scrollWidth, 0);
+            } else {
+              // window.location.href = "#last";
+              window.scroll(document.getElementById("body").scrollWidth/2.98, 0);
+            }
+            document.getElementById("html").style["scroll-behavior"]="smooth";
+        }
+
+
+        window.addEventListener("resize", reScroll);
+    </script>
+
+    <script type="text/javascript">
+        // Open the home page after loading the page
+
+        function load() {
+        	var parseLink = window.location.href.split("#");
+        	parseLink = parseLink[parseLink.length-1];
+        	console.log(parseLink);
+        	if (parseLink == window.location.href) {
+        		var isFirefox = (typeof InstallTrigger !== 'undefined');
+		        var isIE = (/*@cc_on!@*/false || !!document.documentMode);
+		        var isEdge = (!isIE && !!window.StyleMedia);
+		        var isLinux = navigator.platform.search("Linux") != -1;
+		        var a = document.getElementById('problem').firstElementChild;
+		        if (isFirefox || isEdge || isLinux) {
+		           window.location.href = "#second-from-first";
+		        } else {
+		           window.location.href = "#second-from-last";
+		        }
+        	} 
+            // else {
+            //     window.location.href = "#second-from-last"
+            // }
+        }
+    </script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            overflow: hidden;
+            background-color: #F5F5F5;
+        }
+        #link {
+            /*Edit font of the links*/
+            color: black;
+            font-style: bold;
+            font-family: "Lucida console", Monospace;
+        }
+        #text-btn {
+            /*Edit button text*/
+            color: gray;
+            font-family: "Lucida console", Monospace;
+            font-style: 30px;
+            padding: 10px;
+        }
+
+        #side-scroll{
+            white-space: nowrap;
+        }
+
+        .page{
+            display: inline-block;
+            height: 100vh;
+            vertical-align: bottom;
+        }
+
+        .width80{
+            width: 80%;
+            overflow-y: scroll;
+            /*display: inline;*/
+        }
+
+        .width80::-webkit-scrollbar {
+            display: none;
+            scrollbar-width: none;
+        }
+
+        .width90{
+            width: 90%;
+            position: relative;
+            overflow-y: scroll;
+        }
+
+        .width90::-webkit-scrollbar {
+            display: none;
+            scrollbar-width: none;
+        }
+        .ButtonsDiv {
+            overflow: auto;
+            height: 3cm;
+        }
+
+        #logout-btn {
+            left: 8%;
+            position: absolute;
+        }
+        #deleteacc-btn {
+            left: 92%;
+            transform: translate(-100%);
+            position: absolute;
+        }
+        #contentDiv{
+            overflow-y: scroll;
+            overflow-x: scroll;
+            height: calc(100% - 100px - 3cm);
+            width: 100%;
+        }
+        #contentDiv::-webkit-scrollbar {
+            display: none;
+            scrollbar-width: none;
+        }
+
+        #details-container {
+            /*Font in the drop-downs in personal details section.
+            Also position the container relative to the whole page section.*/
+
+            float: left;
+            margin-left: 8%;
+            position: relative;
+            width: 40%;
+            text-align: left;
+            text-anchor: center;
+            padding: 20px;
+            font-size: 20px;
+            font-family: "Lucida console", Monospace;
+        }
+        #stats-container {
+            /*Font in drop-downs in personal stats section and
+            position container relative to this page section.*/
+            float: left;
+            margin-left: 0%;
+            left: 0%;
+            position: relative;
+            width: 40%;
+            text-align: left;
+            text-anchor: center;
+            padding: 20px;
+            font-size: 20px;
+            font-family: "Lucida console", Monospace;
+        }
+
+        .divider{
+            /*Set the text to be vertically displayed*/
+            width: 10%;
+            height: 100vh;
+            display: inline-block;
+            text-align: center;
+            text-orientation: upright;
+            writing-mode: vertical-rl;
+        }
+
+        .r-border{
+            /*Set the right border*/
+
+            border-right: 8px solid;
+            border-style:groove;
+
+            text-align: center;
+            writing-mode: vertical-lr;
+            text-orientation: upright;
+            font-size: 25px;
+            text-decoration-color: black;
+            height: 100vh;
+        }
+
+        .l-border{
+            /*Set the left border*/
+
+            border-left: 8px solid;
+            border-style:groove;
+
+            text-align: center;
+            writing-mode: vertical-lr;
+            text-orientation: upright;
+            font-size: 25px;
+            text-decoration-color: black;
+            height: 100vh;
+        }
+
+        table th {
+            text-align: center;
+        }
+        .table {
+            text-align: center;
+            margin: auto;
+            /*margin-left: 100px;*/
+            margin: 10%;
+            margin-top: 50px;
+            width: 80% !important;
+        }
+        h1 {
+            margin-top: 20px;
+            position: relative;
+        }
+        .Create-game {
+            margin-top: 5%;
+            height: 92%;
+        }
+
+        .subheader{
+            margin-bottom: 6px;
+            text-align: center;
+            color: gray;
+            font-size: 2.5vw;
+            width: 100%;
+        }
+
+        #flip-cards{
+          margin-top: 7vh;
+          text-align: center;
+          height: auto;
+          width: 100%;
+          max-height: 75%;
+          overflow-y: scroll;
+          scrollbar-width: none;
+        }
+
+        #flip-cards::-webkit-scrollbar {
+            display: none;
+        }
+
+        .flip-card {
+            border-radius: 2vw;
+            display: inline-block;
+            margin: 10px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            /*float:left;*/
+            /*text-align: center;*/
+            /*transform: translate(0, +50%);*/
+            /*position: relative;*/
+            background-color: transparent;
+            width: 24vw;
+            min-width: 360px;
+            min-height: 400px;
+            height: calc(24vw * 10 / 9);
+            perspective: 1000px;
+        }
+
+        .flip-card-inner {
+            border-radius: 2vw;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-all;
+            line-break: strict;
+            hyphens: manual;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            border-radius: 2vw;
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            border-radius: 2vw;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .flip-card-front {
+            border-radius: 2vw;
+            text-align: center;
+            vertical-align: middle;
+            color: grey;
+            /*margin: auto;*/
+            /*color: black;*/
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .flip-card-back {
+            border-radius: 2vw;
+            background-color: gray;
+            color: white;
+            transform: rotateY(180deg);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-all;
+            line-break: strict;
+            hyphens: manual;
+        }
+        .card-text{
+          text-align: left;
+          font-size: 1.35vw;
+          line-height: 1.6vw;
+          margin: 1vw;
+          word-wrap: break-word;
+          overflow-wrap: break-word;
+          word-break: break-all;
+          line-break: strict;
+          hyphens: manual;
+          width: calc(100% - 2vw);
+          height: calc(100% - 2vw);
+          overflow-x: hidden;
+          overflow-y: scroll;
+        }
+
+        .card-text::-webkit-scrollbar {
+            display: none;
+        }
+
+        .front-title {
+          line-height: 3vw;
+          font-size: 3vw;
+          position: absolute;
+          top: 40%;
+          left: 50%;
+          transform: translate(-50%, -70%);
+        }
+        .front-text {
+          line-height: 2vw;
+          font-size: 2vw;
+          position: absolute;
+          top: 51%;
+          left: 50%;
+          transform: translate(-50%);
+        }
+
+        @media only screen and (max-width: 1500px) {
+            .card-text{
+                font-size: 21px;
+                line-height: 24px;
+            }
+            #card3 {
+                display: block;
+                position: relative;
+                left: 50%;
+                transform: translate(-50%);   
+            }
+            .flip-card, .flip-card-inner, .flip-card-back, .flip-card-front {
+                border-radius: 30px;
+            }
+        }
+
+        @media only screen and (max-width: 980px) {
+            #card2 {
+                display: block;
+                position: relative;
+                left: 50%;
+                transform: translate(-50%);   
+            }
+            #card1 {
+                display: block;
+                position: relative;
+                left: 50%;
+                transform: translate(-50%);   
+            }
+        }
+
+        @media only screen and (max-width: 1000px) {
+            /*When resized, place the details and stats containers one below the other*/
+
+            #details-container {
+                margin-left: 50%;
+                position: relative;
+                transform: translate(-50%);
+                width: 70%;
+            }
+            #stats-container {
+                margin-top: 20px;
+                margin-left: 50%;
+                position: relative;
+                transform: translate(-50%);
+                width: 70%;
+            }
+            .subheader{
+                font-size: 170%;
+            }
+        }
+
+        @media only screen and (max-width: 740px) {
+            /*When page squeezed even more, squeeze the containers as well*/
+            #details-container {
+                width: 466px;
+            }
+            #stats-container {
+                width: 466px;
+            }
+        }
+
+        html {
+            scrollbar-width: none;
+        }
+        #contentDiv {
+            scrollbar-width: none;
+        }
+        .width90 {
+            scrollbar-width: none;
+        }
+        .width80 {
+            scrollbar-width: none;
+        }
+        html {
+            -ms-overflow-style: none;
+        }
+        .card-text {
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body id="body" onload="load()">
+    <div id="side-scroll">
+        <div class="page width90" id="first">
+
+            <h1 style="text-align: center;">PROFILE</h1>
+            <div class="ButtonsDiv">
+                <button class = "btn btn-warning btn-lg mt-4" id="logout-btn">Log out</button>
+                <button class = "btn btn-danger btn-lg mt-4" id="deleteacc-btn">Delete Account</button>
+            </div>
+
+            <div id="contentDiv">
+                <div class="Personal-details" id="details-container">
+                    <div class="col-sm-12">
+                        <div class="col-xs-12 col-sm-12" style="word-wrap: break-word;">
+
+                            <p class="subheader"> Personal Details </p>
+                            <div id="accordion">  <!-- Create 3 accordions (tweaked drop-downs) -->
+
+                                <div class="card">
+                                    <div class="card-header" id="headingOne" role="tab">
+
+                                        <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="text-btn">
+                                          <h4 class="mb-0">
+                                              Username: <i class="fas fa-angle-down rotate-icon" aria-hidden="true"></i>
+                                          </h4>
+                                        </a>
+
+                                    </div>
+
+                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div class="card-body">
+                                            Username
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header" id="headingTwo">
+                                        <a data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="text-btn">
+                                            <h4 class="mb-0">
+                                                Email: <i class="fas fa-angle-down rotate-icon"></i>
+                                            </h4>
+                                        </a>
+
+                                    </div>
+                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                        <div class="card-body">
+                                            someone@example.com
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header" id="headingThree">
+
+                                        <a data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id="text-btn">
+                                            <h4 class="mb-0">
+                                                Password: <i class="fas fa-angle-down rotate-icon"></i>
+                                            </h4>
+                                        </a>
+                                    </div>
+                                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                        <div class="card-body">
+                                            ****************
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="Personal-stats" id="stats-container">
+                    <div class="col-sm-12">
+                        <div class="col-xs-12 col-sm-12">
+
+                            <p class="subheader"> Personal Statistics </p>
+                            <div id="accordion2">
+
+                                <div class="card">
+                                    <div class="card-header" id="headingOne2">
+
+                                        <a data-toggle="collapse" href="#collapseOne2" aria-expanded="false" aria-controls="collapseOne2" id="text-btn">
+                                          <h4 class="mb-0">
+                                             Games Played: <i class="fas fa-angle-down rotate-icon"></i>
+                                          </h4>
+                                        </a>
+
+                                    </div>
+
+                                    <div id="collapseOne2" class="collapse show" aria-labelledby="headingOne2" data-parent="#accordion2">
+                                        <div class="card-body">
+                                          50
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header" id="headingTwo2">
+
+                                        <a data-toggle="collapse" href="#collapseTwo2" aria-expanded="false" aria-controls="collapseTwo2" id="text-btn">
+                                            <h4 class="mb-0">
+                                                Games Won: <i class="fas fa-angle-down rotate-icon"></i>
+                                            </h4>
+                                        </a>
+
+                                    </div>
+                                    <div id="collapseTwo2" class="collapse show" aria-labelledby="headingTwo2" data-parent="#accordion2">
+                                        <div class="card-body">
+                                           27
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header" id="headingThree2">
+
+                                        <a data-toggle="collapse" href="#collapseThree2" aria-expanded="false" aria-controls="collapseThree2" id="text-btn">
+                                            <h4 class="mb-0">
+                                                Win Rate: <i class="fas fa-angle-down rotate-icon"></i>
+                                            </h4>
+                                        </a>
+
+                                    </div>
+                                    <div id="collapseThree2" class="collapse" aria-labelledby="headingThree2" data-parent="#accordion2">
+                                        <div class="card-body">
+                                            55%
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header" id="headingFour">
+
+                                        <a data-toggle="collapse" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour" id="text-btn">
+                                            <h4 class="mb-0">
+                                                Average Score: <i class="fas fa-angle-down rotate-icon"></i>
+                                            </h4>
+                                        </a>
+
+                                    </div>
+                                    <div id="collapseFour" class="collapse" aria-labelledby="headingThree2" data-parent="#accordion2">
+                                        <div class="card-body">
+                                            35
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- The link on the right of the window will take us to the home page -->
+        <div class="divider l-border" id = "problem"><a href="#second-from-last" id="link" onclick="term='main'">Home Page</a></div>
+
+        <!-- The Profile link will take us back -->
+        <div class="divider r-border" id="second-from-last"><a href="#first" id="link" onclick="term='profile'">Profile</a></div>
+
+        <div class="page width80 text-center" id="HMpage">
+            <div class="Create-game">
+                              <h1 >Welcome to Letter Soup!</h1>
+                <button class = "btn btn-warning btn-lg mt-5"> Create Game!</button>
+
+                <div id="flip-cards">
+                    <div class="flip-card" id="card1">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front" style="background-image: url('Play.png');">
+                              <!-- <span class="front-title">How to play?</span>
+                              <span class="front-text">Hover over to<br>find out!!</span> -->
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="card-text">
+                                  You are given 8 letters of the latin
+                                  <br>alphabet randomly selected (we
+                                  <br>don't cheat, no worries).<br>
+                                  <br>You will have to think of a word that
+                                  <br>is a valid one (exists in the dict-
+                                  <br>ionary of the English Language).<br>
+                                  <br>Each of the letters you are going to
+                                  <br>place contain score. The score you
+                                  <br>get after placing a word is the all
+                                  <br>the scores of each letter added up.<br>
+                                  <br>If you're the first player, you can
+                                  <br>place any word you want.
+                                  <br>Otherwise, your word must overlap
+                                  <br>with at least one of the letters
+                                  <br>placed on the board and every
+                                  <br>word when you read left-right and
+                                  <br>top-down should be a valid word.<br>
+                                  <br>You win, as you might have
+                                  <br>guessed by now, if your score is
+                                  <br>bigger! So be careful about how
+                                  <br>you construct the words!<br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" id="card2">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front" style="background-image: url('Whatsnew.png');">
+                              <!-- <span class="front-title">What's new?</span>
+                              <span class="front-text">Hover and<br>you'll see!!</span> -->
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="card-text">
+                                    We have our trade possibility if you
+                                <br>get stuck! You can replace one, two
+                                <br>or three letters if you want.<br>
+                                <br>Your first trade is free (we are very
+                                <br>generous) but every other will cost
+                                <br>you 5 points (again, we are very<br>generous)!<br>
+                                <br>Don't rush with your decisions!<br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flip-card" id="card3">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front" style="background-image: url('Tips.png');">
+                              <!-- <span class="front-title">Tips on how to<br>win?</span>
+                              <span class="front-text">Flip this card and<br>you'll see!!</span> -->
+                            </div>
+                            <div class="flip-card-back">
+                                <p class="card-text">
+                                    1. Place words such that contain
+                                    <br>letters not that frequently used.
+                                    <br>This way, you reduce the chance
+                                    <br>your opponent to get some
+                                    <br>common letters already on the
+                                    <br>board for him.<br>
+                                    <br>2. Avoid placing word that overlap
+                                    <br>with the last tiles on the board!
+                                    <br>Think carefully which is the word
+                                    <br>that would render you greatest
+                                    <br>score. Is it a shoreter word that
+                                    <br>when placed forms other words
+                                    <br>with already placed letters or a
+                                    <br>longer which does not overlap
+                                    <br>with any other?<br>
+                                    <br>3. Do not rely on the trade function
+                                    <br>so much. Nothing guarantees you
+                                    <br>will get the letter you want, even if
+                                    <br>you choose to trade 3 letters!
+                                    <br>Use it only when you cannot
+                                    <br>place a word at all!<br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <h5>The actual rules and etc.</h5> -->
+            </div>
+        </div>
+
+
+
+
+        <!-- Go to leaderbord (final section) on click -->
+        <div class="divider l-border" id="second-from-first"><a href="#last" id="link" onclick="term='leaderboard'">Leaderboard</a></div>
+
+        <!-- Go back to home page on click -->
+        <div class="divider r-border"><a href="#second-from-last" id="link" onclick="term='main'">Home Page</a></div>
+
+
+        <div class="page width90" id="last">
+            <h1 style="margin-left: 100px;">LEADERBOARD</h1>
+
+            <table class = "table table-hover table-dark" align="left" width="60px">
+                <thead>
+                    <tr>
+                        <th class="w-10" scope="col">Rank</th>
+                        <th class="w-55" scope="col">Username</th>
+                        <th class="w-20" scope="col">Win rate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Name1</td>
+                        <td>%</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Name2</td>
+                        <td>%</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Name3</td>
+                        <td>%</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>Name4</td>
+                        <td>%</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>Name5</td>
+                        <td>%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        var isFirefox = (typeof InstallTrigger !== 'undefined');
+        var isIE = (/*@cc_on!@*/false || !!document.documentMode);
+        var isEdge = (!isIE && !!window.StyleMedia);
+        var isLinux = navigator.platform.search("Linux") != -1;
+        var a = document.getElementById('problem').firstElementChild;
+        if (isFirefox || isEdge || isLinux) {
+           a.href = "#second-from-first";
+        } else {
+           a.href = "#second-from-last";
+        }
+    </script>
+
+</body>
+</html>
